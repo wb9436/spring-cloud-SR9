@@ -1,0 +1,37 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: feign-example-consumer
+  #  Nacos 作为注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+feign:
+  hystrix:
+    enabled: true # 打开feign对hustrix的支持，fallback、fallbackFactory 才有效
+  compression:
+    request:
+      enabled: true   # 开启请求压缩
+      mime-types: text/html,application/xml,application/json  # 设置压缩的数据类型
+      min-request-size: 2048  # 设置触发压缩的大小下限
+    response:
+      enabled: true   # 开启响应压缩
+  client:
+    config:
+      feign-example-provider: # FeignClient（服务接口）的名称
+        connectTimeout: 5000  # 建立连接的超时时长
+        readTimeout: 5000   # 读取超时时长
+        loggerLevel: basic   # Feign的日志级别：none、basic、headers、full
+        errorDecoder: com.ivan.feign.decoder.MyFeignNotFindErrorDecoder   # Feign的（404）错误解码器
+        retryer: com.ivan.feign.retryer.MyFeignRetryer   # 配置重试策略
+        requestInterceptors: # 配置拦截器
+          - com.ivan.feign.interceptor.MyFeignRequestInterceptor
+        decode404: false    # true：配置熔断不处理404异常；false：触发errorDecoder，处理404异常
+
+# 通过属性配置负载策略
+feign-example-provider: # 微服务的id
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule # 随机策略
