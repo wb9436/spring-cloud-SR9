@@ -1,5 +1,6 @@
 package com.ivan.service;
 
+import com.ivan.config.FeignDefaultConfiguration;
 import com.ivan.entity.RequestEntity;
 import com.ivan.service.fallback.ProviderFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(
 //        name值对应Nacos服务名
         name = "feign-example-provider",
+//        configuration = FeignDefaultConfiguration.class, // 通过配置类配置，针对某个微服务进行自定义配置，局部配置
+
 //        需要开启对 hystrix 支持【fallback，fallbackFactory容错处理，同时配置fallback有效】才有效
 //        fallback = ProviderFallback.class, // 只做容错处理
         fallbackFactory = ProviderFallbackFactory.class // 不仅只做容错处理，还可获取异常详情

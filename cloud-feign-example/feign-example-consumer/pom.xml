@@ -21,9 +21,15 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--Feign支持-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!--Feign添加HttpClient支持依赖-->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
         </dependency>
 
         <dependency>

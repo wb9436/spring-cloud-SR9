@@ -1,5 +1,6 @@
 package com.ivan;
 
+import com.ivan.config.FeignDefaultConfiguration;
 import com.ribbon.IgnoreScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +15,10 @@ import org.springframework.context.annotation.FilterType;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(
+        // 添加到@EnableFeignClients的defaultConfiguration属性，则为全局配置
+//        defaultConfiguration = FeignDefaultConfiguration.class
+)
 @ComponentScan(excludeFilters = {
         // 被 @IgnoreScan 注解所标注的类不会被注册到Spring容器
         @ComponentScan.Filter(type = FilterType.ANNOTATION, value = IgnoreScan.class)

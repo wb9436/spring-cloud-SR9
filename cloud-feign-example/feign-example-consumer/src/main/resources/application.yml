@@ -21,7 +21,9 @@ feign:
       enabled: true   # 开启响应压缩
   client:
     config:
-      feign-example-provider: # FeignClient（服务接口）的名称
+      default: # 使用default就是全局配置，如果使用某个微服务名称，就是局部配置
+        loggerLevel: full
+      feign-example-provider: # FeignClient（服务接口）的名称，使用微服务名称，表示这是针对当前微服务的局部配置
         connectTimeout: 5000  # 建立连接的超时时长
         readTimeout: 5000   # 读取超时时长
         loggerLevel: basic   # Feign的日志级别：none、basic、headers、full
@@ -30,6 +32,11 @@ feign:
         requestInterceptors: # 配置拦截器
           - com.ivan.feign.interceptor.MyFeignRequestInterceptor
         decode404: false    # true：配置熔断不处理404异常；false：触发errorDecoder，处理404异常
+  # 添加HttpClient支持
+  httpclient:
+    enabled: true # 开启Feign对HttpClient支持
+    max-connections: 200 # 最大连接数
+    max-connections-per-route: 50 # 每个路径最大连接数
 
 # 通过属性配置负载策略
 feign-example-provider: # 微服务的id
