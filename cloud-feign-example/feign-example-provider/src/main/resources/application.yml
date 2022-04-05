@@ -8,3 +8,4 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        ephemeral: false # ephemeral配置表示是否为临时实例：false表示为非临时实例（默认为true 临时实例）
