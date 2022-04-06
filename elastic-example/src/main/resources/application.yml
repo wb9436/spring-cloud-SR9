@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: elastic-example
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.152.50:3306/elastic_test?useSsl=true
+    username: root
+    password: root
+
+logging:
+  level:
+    com.ivan: debug
+  pattern:
+    dateformat: HH:mm:ss:SSS
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.ivan.entity
