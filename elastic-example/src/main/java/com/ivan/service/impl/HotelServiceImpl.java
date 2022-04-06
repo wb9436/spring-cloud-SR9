@@ -21,6 +21,10 @@ import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -32,6 +36,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +56,7 @@ public class HotelServiceImpl extends ServiceImpl<HotelDao, Hotel> implements Ho
             // 1.创建请求
             SearchRequest request = new SearchRequest("hotel");
             // 2.组织 DSL 语句
-            handlerBasicQuery(params, request);
+            builderBasicQuery(params, request);
             // 3.发送请求
             SearchResponse response = client.search(request, RequestOptions.DEFAULT);
             // 4.解析数据
@@ -61,7 +66,54 @@ public class HotelServiceImpl extends ServiceImpl<HotelDao, Hotel> implements Ho
         }
     }
 
-    private void handlerBasicQuery(RequestParams params, SearchRequest request) {
+    @Override
+    public Map<String, List<String>> getFilters(RequestParams params) {
+        try {
+            // 1. 准备请求
+            SearchRequest request = new SearchRequest("hotel");
+            // 2. 准备 DSl
+            // 2.1 组织查询条件
+            builderBasicQuery(params, request);
+            // 2.2 设置返回文档数量为0
+            request.source().size(0);
+            // 2.3 组织Aggregation
+            builderAggregation(request);
+            // 3. 发送请求
+            SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+            // 4. 解析响应
+            Map<String, List<String>> result = new HashMap<>();
+            Aggregations aggregations = response.getAggregations();
+            // 4.1 解析城市
+            List<String> cityList = resolverAggregation(aggregations, "cityAgg");
+            result.put("city", cityList);
+            // 4.2 解析星级
+            List<String> starList = resolverAggregation(aggregations, "starAgg");
+            result.put("starName", starList);
+            // 4.3 解析品牌
+            List<String> brandList = resolverAggregation(aggregations, "brandAgg");
+            result.put("brand", brandList);
+            return result;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<String> resolverAggregation(Aggregations aggregations, String aggName) {
+        Terms cityAgg = aggregations.get(aggName);
+        List<String> list = new ArrayList<>();
+        for (Terms.Bucket bucket : cityAgg.getBuckets()) {
+            list.add(bucket.getKey().toString());
+        }
+        return list;
+    }
+
+    private void builderAggregation(SearchRequest request) {
+        request.source().aggregation(AggregationBuilders.terms("cityAgg").field("city").size(100));
+        request.source().aggregation(AggregationBuilders.terms("brandAgg").field("brand").size(100));
+        request.source().aggregation(AggregationBuilders.terms("starAgg").field("starName").size(100));
+    }
+
+    private void builderBasicQuery(RequestParams params, SearchRequest request) {
         // 1.原始查询
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         String key = params.getKey();
