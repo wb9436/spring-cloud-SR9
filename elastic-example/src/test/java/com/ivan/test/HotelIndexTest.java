@@ -7,7 +7,6 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.GetIndexRequest;
-import org.elasticsearch.client.indices.GetIndexResponse;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +17,8 @@ import java.io.IOException;
 import static com.ivan.constants.HotelIndexConstants.MAPPING_TEMPLATE;
 
 /**
+ * 测试索引库相关操作
+ *
  * @author: WB
  * @version: v1.0
  */

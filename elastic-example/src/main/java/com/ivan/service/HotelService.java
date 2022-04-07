@@ -16,4 +16,6 @@ public interface HotelService extends IService<Hotel> {
     PageResult search(RequestParams params);
 
     Map<String, List<String>> getFilters(RequestParams params);
+
+    List<String> getSuggestion(String prefix);
 }

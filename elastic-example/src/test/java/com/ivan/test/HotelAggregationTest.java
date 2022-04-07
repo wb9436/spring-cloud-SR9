@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
+ * 测试聚合查询相关操作
+ *
  * @author: WB
  * @version: v1.0
  */

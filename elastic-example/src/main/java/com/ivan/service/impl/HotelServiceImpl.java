@@ -29,6 +29,9 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.elasticsearch.search.suggest.SuggestBuilder;
+import org.elasticsearch.search.suggest.SuggestBuilders;
+import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -92,6 +95,37 @@ public class HotelServiceImpl extends ServiceImpl<HotelDao, Hotel> implements Ho
             // 4.3 解析品牌
             List<String> brandList = resolverAggregation(aggregations, "brandAgg");
             result.put("brand", brandList);
+            return result;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<String> getSuggestion(String prefix) {
+        try {
+            // 1.准备请求
+            SearchRequest request = new SearchRequest("hotel");
+            // 2.组织DSL语句
+            request.source().suggest(new SuggestBuilder()
+                    .addSuggestion("key_suggestion",
+                            SuggestBuilders.completionSuggestion("suggestion")
+                                    .prefix(prefix)
+                                    .skipDuplicates(true)
+                                    .size(10)
+                    )
+            );
+            // 3.发送请求
+            SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+            // 4.解析响应
+            CompletionSuggestion completion = response.getSuggest().getSuggestion("key_suggestion");
+            List<CompletionSuggestion.Entry.Option> options = completion.getOptions();
+
+            List<String> result = new ArrayList<>(options.size());
+            for (CompletionSuggestion.Entry.Option option : options) {
+                String text = option.getText().toString();
+                result.add(text);
+            }
             return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
