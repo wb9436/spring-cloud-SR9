@@ -1,9 +1,11 @@
 package com.ivan.comtroller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ivan.entity.Hotel;
 import com.ivan.entity.PageResult;
 import com.ivan.entity.RequestParams;
 import com.ivan.service.HotelService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import java.util.Map;
  * @author: WB
  * @version: v1.0
  */
+@Slf4j
 @RestController
 @RequestMapping("/hotel")
 public class HotelController {
@@ -28,6 +31,7 @@ public class HotelController {
 
     @PostMapping("/list")
     public PageResult search(@RequestBody RequestParams params) {
+        log.info("查询酒店信息：params={}", JSONObject.toJSONString(params));
         return hotelService.search(params);
     }
 
