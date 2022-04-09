@@ -8,6 +8,7 @@
         <module>nacos-config-example</module>
         <module>cloud-feign-example</module>
         <module>elastic-example</module>
+        <module>rabbitmq-example</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
