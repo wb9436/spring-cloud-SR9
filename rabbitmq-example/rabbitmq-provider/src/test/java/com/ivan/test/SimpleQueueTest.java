@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 简单队列测试
  *
@@ -32,5 +35,15 @@ public class SimpleQueueTest {
     public void testSimpleQueue2() {
         String msg = "测试发送简单队列消息2";
         rabbitTemplate.convertAndSend("simple.queue2", msg);
+    }
+
+    @Test
+    public void testSendMap() {
+        // 准备消息
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("name", "Jack");
+        msg.put("age", 21);
+        // 发送消息
+        rabbitTemplate.convertAndSend("simple.queue.map", msg);
     }
 }

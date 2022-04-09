@@ -4,6 +4,8 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +16,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringRabbitConfiguration {
 
+    /*配置Rabbit的消息转换器*/
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
     /**
      * 声明一个队列
      * 可在@RabbitListener注解中声明
@@ -21,6 +29,11 @@ public class SpringRabbitConfiguration {
     @Bean
     public Queue simpleQueue() {
         return new Queue("simple.queue");
+    }
+
+    @Bean
+    public Queue simpleQueueMap() {
+        return new Queue("simple.queue.map");
     }
 
     /**

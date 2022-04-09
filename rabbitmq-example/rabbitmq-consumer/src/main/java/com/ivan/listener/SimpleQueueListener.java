@@ -5,6 +5,8 @@ import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 /**
  * Simple Queue（简单队列）
  * -- 不需要指定交换机，从指定队列获取消息
@@ -29,5 +31,10 @@ public class SimpleQueueListener {
     @RabbitListener(queuesToDeclare = @Queue(name = "simple.queue"))
     public void listenerSimpleQueue3(String msg) {
         log.info("listener3 接收到简单队列【{}】消息内容为：{}", "simple.queue", msg);
+    }
+
+    @RabbitListener(queuesToDeclare = @Queue(name = "simple.queue.map"))
+    public void listenerSimpleQueue4(Map<String, Object> msg) {
+        log.info("listener4 接收到简单队列【{}】消息内容为：{}", "simple.queue.map", msg);
     }
 }
