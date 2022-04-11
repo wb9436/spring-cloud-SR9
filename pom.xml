@@ -9,6 +9,8 @@
         <module>cloud-feign-example</module>
         <module>elastic-example</module>
         <module>rabbitmq-example</module>
+        <module>security-example</module>
+        <module>interview</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
