@@ -11,6 +11,7 @@
         <module>rabbitmq-example</module>
         <module>security-example</module>
         <module>interview</module>
+        <module>springfox-example</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
