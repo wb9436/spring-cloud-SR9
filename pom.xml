@@ -12,6 +12,7 @@
         <module>security-example</module>
         <module>interview</module>
         <module>springfox-example</module>
+        <module>netty-example</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
