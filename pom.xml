@@ -13,7 +13,6 @@
         <module>interview</module>
         <module>springfox-example</module>
         <module>netty-example</module>
-        <module>mybatis-example</module>
         <module>springboot-limiter</module>
         <module>springboot-local-lock</module>
     </modules>
