@@ -24,7 +24,7 @@ public class GlobalException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "CMSException{" + "code=" + code + ", message=" + this.getMessage() + '}';
+        return "GlobalException{" + "code=" + code + ", message=" + this.getMessage() + '}';
     }
 
 }
