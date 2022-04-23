@@ -17,6 +17,7 @@
         <module>springboot-local-lock</module>
         <module>netty-redis</module>
         <module>springboot-mybatis</module>
+        <module>spring-common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
