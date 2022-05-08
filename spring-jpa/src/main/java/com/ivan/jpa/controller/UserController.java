@@ -2,6 +2,7 @@ package com.ivan.jpa.controller;
 
 import com.ivan.jpa.entity.UserInfo;
 import com.ivan.jpa.service.UserService;
+import com.ivan.jpa.vo.UserInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +21,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/{id}")
-    public UserInfo findById(@PathVariable("id") Long id) {
-        return userService.findById(id);
+    @RequestMapping("/type1/{id}")
+    public UserInfo findType1ById(@PathVariable("id") long id) {
+        long start = System.currentTimeMillis();
+        UserInfo user = userService.findById(id);
+        System.out.printf("type1 查询共耗时：%s ms \n", System.currentTimeMillis() - start);
+        return user;
     }
 
+    @RequestMapping("/type2/{id}")
+    public UserInfoVo findType2ById(@PathVariable("id") long id) {
+        long start = System.currentTimeMillis();
+        UserInfoVo user = userService.findType2ById(id);
+        System.out.printf("type2 查询共耗时：%s ms \n", System.currentTimeMillis() - start);
+        return user;
+    }
+
+    @RequestMapping("/type3/{id}")
+    public UserInfoVo findType3ById(@PathVariable("id") long id) {
+        long start = System.currentTimeMillis();
+        UserInfoVo user = userService.findType3ById(id);
+        System.out.printf("type3 查询共耗时：%s ms \n", System.currentTimeMillis() - start);
+        return user;
+    }
 }
