@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * TODO
  *
@@ -25,6 +27,7 @@ public class UserController {
     public UserInfo findType1ById(@PathVariable("id") long id) {
         long start = System.currentTimeMillis();
         UserInfo user = userService.findById(id);
+        List<UserInfo> list = userService.findAll1();
         System.out.printf("type1 查询共耗时：%s ms \n", System.currentTimeMillis() - start);
         return user;
     }
@@ -41,6 +44,7 @@ public class UserController {
     public UserInfoVo findType3ById(@PathVariable("id") long id) {
         long start = System.currentTimeMillis();
         UserInfoVo user = userService.findType3ById(id);
+        List<UserInfoVo> list = userService.findAll3();
         System.out.printf("type3 查询共耗时：%s ms \n", System.currentTimeMillis() - start);
         return user;
     }

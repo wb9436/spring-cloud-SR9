@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,5 +42,13 @@ public class UserService {
 
     public UserInfoVo findType3ById(long id) {
         return userInfoDao.findByIdReturnDto(id);
+    }
+
+    public List<UserInfo> findAll1() {
+        return userInfoDao.findAll();
+    }
+
+    public List<UserInfoVo> findAll3() {
+        return userInfoDao.findAll3();
     }
 }

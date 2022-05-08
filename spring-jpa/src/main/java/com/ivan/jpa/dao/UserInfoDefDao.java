@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +24,6 @@ public interface UserInfoDefDao extends JpaRepository<UserInfo, Long> {
     @Query(value = "select a.userId,a.username,a.age from user_info a where a.id = ?1", nativeQuery = true)
     UserInfoVo findByIdReturnDto(long id);
 
+    @Query(value = "select a.userId,a.username,a.age from user_info a", nativeQuery = true)
+    List<UserInfoVo> findAll3();
 }
