@@ -19,6 +19,7 @@
         <module>springboot-mybatis</module>
         <module>spring-common</module>
         <module>spring-data-persistence</module>
+        <module>spring-redis</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
