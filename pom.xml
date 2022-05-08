@@ -20,6 +20,7 @@
         <module>spring-common</module>
         <module>spring-data-persistence</module>
         <module>spring-redis</module>
+        <module>spring-jpa</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

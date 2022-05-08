@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3307/jpa?serverTimezone=UTC
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #下划线驼峰转换
+#        ddl-auto: update #自动更新
+    show-sql: true #日志中显示sql语句
+
