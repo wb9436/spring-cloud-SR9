@@ -15,5 +15,6 @@ public class UserInfoVo implements JpaQueryDto {
     private Integer userId;
     private String username;
     private Integer age;
+    private Integer balance;
 
 }

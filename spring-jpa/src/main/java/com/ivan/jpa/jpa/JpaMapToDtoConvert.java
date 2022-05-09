@@ -1,5 +1,6 @@
 package com.ivan.jpa.jpa;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.GenericConverter;
@@ -14,15 +15,18 @@ import java.util.Set;
  * @author WuBing
  * @date 2022-05-08 22:19
  */
+@Slf4j
 public class JpaMapToDtoConvert implements GenericConverter {
 
     @Override
     public Set<ConvertiblePair> getConvertibleTypes() {
+        log.info("JpaMapToDtoConvert --> getConvertibleTypes 执行了");
         return Collections.singleton(new ConvertiblePair(Map.class, JpaQueryDto.class));
     }
 
     @Override
     public Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
+        log.info("JpaMapToDtoConvert --> convert 执行了");
         if (source == null) {
             return null;
         }

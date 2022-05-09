@@ -1,13 +1,16 @@
 package com.ivan.jpa.controller;
 
+import com.ivan.jpa.entity.UserAccount;
 import com.ivan.jpa.entity.UserInfo;
 import com.ivan.jpa.service.UserService;
 import com.ivan.jpa.vo.UserInfoVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -47,5 +50,33 @@ public class UserController {
         List<UserInfoVo> list = userService.findAll3();
         System.out.printf("type3 查询共耗时：%s ms \n", System.currentTimeMillis() - start);
         return user;
+    }
+
+    @RequestMapping("/balance/{userId}")
+    public UserAccount getUserBalance(@PathVariable("userId") int userId) {
+        return userService.getUserBalance(userId);
+    }
+
+    @RequestMapping("/info/{userId}")
+    public UserInfoVo getUserBaseInfo(@PathVariable("userId") int userId) {
+        return userService.getUserBaseInfo(userId);
+    }
+
+    @RequestMapping("/page")
+    public List<UserInfoVo> getPageList(HttpServletRequest request) {
+        long start = System.currentTimeMillis();
+        String pageNumStr = request.getParameter("pageNum");
+        String pageSizeStr = request.getParameter("pageSize");
+        int pageNum = 1;
+        int pageSize = 10;
+        if(!StringUtils.isEmpty(pageNumStr)) {
+            pageNum = Integer.parseInt(pageNumStr);
+        }
+        if(!StringUtils.isEmpty(pageSizeStr)) {
+            pageSize = Integer.parseInt(pageSizeStr);
+        }
+        List<UserInfoVo> list = userService.getPageList(pageNum, pageSize);
+        System.out.printf("getPageList 查询共耗时：%s ms \n", System.currentTimeMillis() - start);
+        return list;
     }
 }
