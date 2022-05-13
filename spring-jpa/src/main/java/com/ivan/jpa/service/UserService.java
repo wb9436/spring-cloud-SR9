@@ -1,7 +1,9 @@
 package com.ivan.jpa.service;
 
+import com.ivan.jpa.dao.FullInfoDao;
 import com.ivan.jpa.dao.UserAccountDao;
 import com.ivan.jpa.dao.UserInfoDefDao;
+import com.ivan.jpa.entity.FullInfo;
 import com.ivan.jpa.entity.UserAccount;
 import com.ivan.jpa.entity.UserInfo;
 import com.ivan.jpa.vo.UserInfoVo;
@@ -28,6 +30,8 @@ public class UserService {
     private UserInfoDefDao userInfoDao;
     @Autowired
     private UserAccountDao userAccountDao;
+    @Autowired
+    private FullInfoDao fullInfoDao;
 
     public UserInfo findById(long id) {
 //        return userInfoDao.findById(id).orElse(null);
@@ -71,5 +75,9 @@ public class UserService {
     public List<UserInfoVo> getPageList(int pageNum, int pageSize) {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         return userInfoDao.getPageList(pageable);
+    }
+
+    public FullInfo getFullInfo(int userId) {
+        return fullInfoDao.findInfoByUserId(userId);
     }
 }

@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -21,6 +22,8 @@ public class RedisHashTest {
     private RedisHash redisHash;
     @Autowired
     private RedisCommon redisCommon;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Test
     public void testPut() {
@@ -62,5 +65,10 @@ public class RedisHashTest {
 
         Long val = redisHash.getIncrValue2("hashIncr", "a0");
         System.out.println(val);
+    }
+
+    @Test
+    public void testPutInt() {
+        redisTemplate.opsForHash().put("hashInt", 1+"", 100+"");
     }
 }

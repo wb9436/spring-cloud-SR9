@@ -1,5 +1,6 @@
 package com.ivan.jpa.controller;
 
+import com.ivan.jpa.entity.FullInfo;
 import com.ivan.jpa.entity.UserAccount;
 import com.ivan.jpa.entity.UserInfo;
 import com.ivan.jpa.service.UserService;
@@ -60,6 +61,11 @@ public class UserController {
     @RequestMapping("/info/{userId}")
     public UserInfoVo getUserBaseInfo(@PathVariable("userId") int userId) {
         return userService.getUserBaseInfo(userId);
+    }
+
+    @RequestMapping("/full/{userId}")
+    public FullInfo getFullInfo(@PathVariable("userId") int userId) {
+        return userService.getFullInfo(userId);
     }
 
     @RequestMapping("/page")

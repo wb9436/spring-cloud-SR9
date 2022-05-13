@@ -12,10 +12,8 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author: WB
@@ -124,4 +122,75 @@ public class RedisSortedSetTest {
         return format.format(date);
     }
 
+    @Test
+    public void testInitCharmPriceCache() {
+        List<CharmPrice> list = CharmPrice.list;
+        String cacheKey = "charm_price";
+        String hashKey = "%s_%s"; // charmLevel_price
+
+        list.forEach(item -> {
+            String sortKey = String.format(hashKey, item.getCharmLevel(), item.getPrice());
+            redisSortSet.put(cacheKey, sortKey, item.getCharmLevel());
+        });
+    }
+
+    @Test
+    public void testGetCharmPrice() {
+        String cacheKey = "charm_price";
+        List<String> list = redisSortSet.getByScoreAsc(cacheKey, 0, 6);
+        if (list == null || list.isEmpty()) return;
+        list.forEach(System.out::println);
+        List<CharmPrice> charmPriceList = list.stream().map(item -> {
+            String[] strings = item.split("_");
+            return new CharmPrice(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]));
+        }).distinct().collect(Collectors.toList());
+        charmPriceList.forEach(System.out::println);
+    }
+
+    private static class CharmPrice {
+        public static final List<CharmPrice> list = new ArrayList<>();
+
+        static {
+            list.add(new CharmPrice(0, 200));
+            list.add(new CharmPrice(0, 400));
+            list.add(new CharmPrice(1, 500));
+            list.add(new CharmPrice(2, 600));
+            list.add(new CharmPrice(2, 700));
+            list.add(new CharmPrice(3, 800));
+            list.add(new CharmPrice(4, 900));
+            list.add(new CharmPrice(5, 1000));
+            list.add(new CharmPrice(6, 1200));
+            list.add(new CharmPrice(7, 1500));
+            list.add(new CharmPrice(7, 2000));
+            list.add(new CharmPrice(8, 2000));
+        }
+
+        private int charmLevel;
+        private int price;
+
+        public CharmPrice(int charmLevel, int price) {
+            this.charmLevel = charmLevel;
+            this.price = price;
+        }
+
+        public int getCharmLevel() {
+            return charmLevel;
+        }
+
+        public int getPrice() {
+            return price;
+        }
+
+        @Override
+        public String toString() {
+            return "CharmPrice{" +
+                    "charmLevel=" + charmLevel +
+                    ", price=" + price +
+                    '}';
+        }
+    }
+
+
 }
+
+
