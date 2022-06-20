@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author: WB
  * @version: v1.0
@@ -74,6 +76,21 @@ public class RedisList {
      */
     public Long length(String key) {
         return redisTemplate.opsForList().size(key);
+    }
+
+
+    /**
+     * 获取指定下标范围的列表
+     *
+     * @param key   缓存key
+     * @param start 起始位置
+     * @param end   结束位置
+     * @return java.util.List<java.lang.String>
+     * @author WuBing
+     * @date 2022-06-08 22:04:33
+     */
+    public List<String> getRangeList(String key, long start, long end) {
+        return redisTemplate.opsForList().range(key, start, end);
     }
 
 }

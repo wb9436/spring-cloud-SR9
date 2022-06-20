@@ -37,15 +37,6 @@ public class RedisStringTest {
     }
 
     @Test
-    public void testIncr() {
-        Long num = redisString.increment("num", 2);
-        System.out.println(num);
-
-        num = redisString.increment("num", -1);
-        System.out.println(num);
-    }
-
-    @Test
     public void testTTL() {
         Long str1 = redisCommon.ttl("str1");
         System.out.println(str1);
@@ -56,4 +47,20 @@ public class RedisStringTest {
         Boolean str1 = redisCommon.delete("str1");
         System.out.println(str1);
     }
+
+    @Test
+    public void testIncr() {
+        String incrKey = "incrKey";
+        redisString.set("incrKey", "1");
+
+        String val = redisString.get(incrKey);
+        System.out.println(val);
+
+        Long increment = redisString.increment(incrKey, -1);
+        System.out.println(increment);
+
+        val = redisString.get(incrKey);
+        System.out.println(val);
+    }
+
 }

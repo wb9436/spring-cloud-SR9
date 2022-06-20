@@ -29,6 +29,16 @@ public class RedisString {
     }
 
     /**
+     * 获取缓存
+     *
+     * @param key 缓存key
+     * @return
+     */
+    public String get(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    /**
      * 添加缓存
      *
      * @param key     缓存key

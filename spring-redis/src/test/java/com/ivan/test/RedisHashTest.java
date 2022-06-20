@@ -69,6 +69,30 @@ public class RedisHashTest {
 
     @Test
     public void testPutInt() {
-        redisTemplate.opsForHash().put("hashInt", 1+"", 100+"");
+        redisTemplate.opsForHash().put("hashInt", 1 + "", 100 + "");
+    }
+
+    @Test
+    public void testAutoIncr() {
+        String key = "autoIncrKey";
+        long remainNum = Long.MAX_VALUE - 3;
+
+        try {
+            redisHash.pushIncrement(key, "remainNum", remainNum);
+        } catch (Exception e) {
+            System.out.println("初始化失败");
+            redisHash.pushIncrement(key, "remainNum", -3);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            try {
+                Long result = redisHash.pushIncrement(key, "remainNum", 1);
+                System.out.printf("添加成功：result=%s ; i=%s \n", result, i);
+            } catch (Exception e) {
+                System.out.printf("添加失败：i=%s \n", i);
+            }
+        }
+
+
     }
 }

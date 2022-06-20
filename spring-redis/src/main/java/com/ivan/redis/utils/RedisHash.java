@@ -68,7 +68,7 @@ public class RedisHash {
      * @author WuBing
      * @date 2022-05-08 11:04:48
      */
-    public Long pushIncrement(String key, String hashKey, int offset) {
+    public Long pushIncrement(String key, String hashKey, long offset) {
         return redisTemplate.opsForHash().increment(key, hashKey, offset);
     }
 

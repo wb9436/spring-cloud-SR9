@@ -191,6 +191,44 @@ public class RedisSortedSetTest {
     }
 
 
+    @Test
+    public void testRemoveRange() {
+        String cacheKey = "rangeScoreKey";
+
+//        Random random = new Random();
+//        final int userId = 100000;
+//        for (int i = 0; i < 10; i++) {
+//            int score = i + random.nextInt(100000);
+//            redisSortSet.put(cacheKey, String.valueOf(userId + i), score);
+//        }
+//        printRangeData(cacheKey);
+//        System.out.println("=======================================\n");
+//
+//        Long size = redisTemplate.opsForZSet().zCard(cacheKey);
+//        int remainNum = 5;
+//
+//        redisTemplate.opsForZSet().removeRange(cacheKey, 0, size - 5 - 1);
+//
+//        printRangeData(cacheKey);
+//        System.out.println("=======================================\n");
+
+
+        Set<ZSetOperations.TypedTuple<String>> pageByScoreDescWithScore = redisSortSet.getPageByScoreDescWithScore(cacheKey, 1, 3);
+        pageByScoreDescWithScore.forEach(item -> {
+            String userId = item.getValue();
+            Double score = item.getScore();
+            System.out.printf("%s -> %s \n", userId, score);
+        });
+    }
+
+    public void printRangeData(String cacheKey) {
+        Set<ZSetOperations.TypedTuple<String>> byScoreWithScoreDesc = redisSortSet.getByScoreWithScoreDesc(cacheKey, -1, Integer.MAX_VALUE);
+        byScoreWithScoreDesc.forEach(item -> {
+            String userId = item.getValue();
+            Double score = item.getScore();
+            System.out.printf("%s -> %s \n", userId, score);
+        });
+    }
 }
 
 
